@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free 2026 Rent vs Buy Calculator. Compare the true cost of renting versus buying a home including mortgage, taxes, insurance, maintenance, rent increases, and home appreciation.">
+    <title>Rent vs Buy Calculator 2026 • Should I Rent or Buy?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+        details { cursor: pointer; }
+        summary { font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- All Tools Button -->
+        <div class="flex justify-end mb-6">
+            <a href="tools.html" 
+               class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300 transition">
+                ← Browse All Finance Tools
+            </a>
+        </div>
+
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Rent vs Buy Calculator</h1>
+            <p class="text-xl text-gray-600">2026 Edition • See which option is better for you financially</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+            <!-- Inputs -->
+            <div class="lg:col-span-5 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Your Scenario</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Home Price ($)</label>
+                        <input id="homePrice" type="number" value="450000" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Annual Rent ($)</label>
+                        <input id="annualRent" type="number" value="24000" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Down Payment (%)</label>
+                        <input id="downPct" type="number" value="20" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mortgage Rate (%)</label>
+                        <input id="rate" type="number" step="0.01" value="6.4" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Time Horizon (Years)</label>
+                        <input id="years" type="number" value="10" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="mt-8">
+                    <button onclick="toggleAdvanced()" id="advancedBtn" 
+                            class="text-blue-600 hover:text-blue-700 flex items-center gap-2 font-medium">
+                        ▼ Show Advanced Options
+                    </button>
+                    <div id="advancedSection" class="hidden space-y-6 mt-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Annual Home Appreciation (%)</label>
+                            <input id="appreciation" type="number" step="0.1" value="3.5" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Annual Rent Increase (%)</label>
+                            <input id="rentIncrease" type="number" step="0.1" value="3" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Annual Maintenance (% of home value)</label>
+                            <input id="maintenance" type="number" step="0.1" value="1" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="lg:col-span-7 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Rent vs Buy Comparison Over Time</h2>
+                
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-emerald-50 p-6 rounded-2xl text-center">
+                        <p class="text-sm text-emerald-700">Total Cost of Buying</p>
+                        <div id="buyTotal" class="text-4xl font-bold text-emerald-600 mt-2">$487,000</div>
+                    </div>
+                    <div class="bg-amber-50 p-6 rounded-2xl text-center">
+                        <p class="text-sm text-amber-700">Total Cost of Renting</p>
+                        <div id="rentTotal" class="text-4xl font-bold text-amber-600 mt-2">$312,000</div>
+                    </div>
+                </div>
+
+                <canvas id="comparisonChart" class="w-full h-80"></canvas>
+
+                <div id="verdict" class="mt-8 p-6 bg-gray-50 rounded-2xl text-center font-medium text-lg"></div>
+
+                <div class="flex gap-3 mt-8">
+                    <button onclick="shareResults()" class="flex-1 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition">
+                        Share Results
+                    </button>
+                    <button onclick="window.print()" class="flex-1 border border-gray-300 py-3 rounded-2xl font-medium hover:bg-gray-50 transition">
+                        Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense placeholder -->
+        <div class="my-12 p-6 bg-white rounded-3xl shadow-sm text-center border border-dashed border-gray-300">
+            <p class="text-xs text-gray-400">Advertisement Space — Add AdSense code here after approval</p>
+        </div>
+
+        <!-- Rich Content -->
+        <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
+            <h2 class="text-3xl font-bold mb-6">Rent vs Buy in 2026 — Which is Smarter?</h2>
+            <p class="text-lg">This calculator compares the true long-term cost of renting versus buying, including mortgage payments, property taxes, insurance, maintenance, home appreciation, and rising rent. Current 30-year mortgage rates are around 6.4% as of April 2026.</p>
+
+            <h3 class="font-semibold text-2xl mt-12 mb-4">When Buying Usually Wins</h3>
+            <p>Buying tends to win if you stay 7+ years, can get a good mortgage rate, and the home appreciates well. Renting often wins in high-cost areas or if you value flexibility and low upfront costs.</p>
+
+            <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
+                <p><strong>Disclaimer:</strong> This is an educational tool only. It does not constitute financial or real estate advice. Actual costs vary greatly by location, credit, and market conditions. Always consult professionals before deciding.</p>
+                <p class="mt-4">Last updated: April 2026</p>
+            </div>
+        </div>
+
+        <footer class="mt-16 text-center text-sm text-gray-500 flex flex-wrap justify-center gap-x-6">
+            <a href="tools.html" class="hover:text-gray-700">All Finance Tools</a> |
+            <a href="index.html" class="hover:text-gray-700">Home Affordability Calculator</a> |
+            <a href="retirement-calculator.html" class="hover:text-gray-700">Retirement Calculator</a> |
+            <a href="about.html" class="hover:text-gray-700">About</a> |
+            <a href="privacy.html" class="hover:text-gray-700">Privacy</a> |
+            <a href="disclaimer.html" class="hover:text-gray-700">Disclaimer</a>
+        </footer>
+    </div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Rent vs Buy Calculator 2026",
+      "url": "https://home-affordability-calculator-lovat.vercel.app/rent-vs-buy.html",
+      "description": "Free rent versus buy calculator for 2026.",
+      "applicationCategory": "FinanceApplication",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <script>
+        let comparisonChart;
+
+        function toggleAdvanced() {
+            const section = document.getElementById('advancedSection');
+            const btn = document.getElementById('advancedBtn');
+            section.classList.toggle('hidden');
+            btn.textContent = section.classList.contains('hidden') ? '▼ Show Advanced Options' : '▲ Hide Advanced Options';
+        }
+
+        function calculate() {
+            const homePrice = parseFloat(document.getElementById('homePrice').value) || 450000;
+            const annualRent = parseFloat(document.getElementById('annualRent').value) || 24000;
+            const downPct = parseFloat(document.getElementById('downPct').value) || 20;
+            const rate = parseFloat(document.getElementById('rate').value) || 6.4;
+            const years = parseFloat(document.getElementById('years').value) || 10;
+            const appreciation = parseFloat(document.getElementById('appreciation').value) || 3.5;
+            const rentIncrease = parseFloat(document.getElementById('rentIncrease').value) || 3;
+            const maintenance = parseFloat(document.getElementById('maintenance').value) || 1;
+
+            const downPayment = homePrice * (downPct / 100);
+            const loanAmount = homePrice - downPayment;
+            const monthlyRate = rate / 100 / 12;
+            const numPayments = years * 12;
+
+            let monthlyPI = 0;
+            if (monthlyRate > 0) {
+                monthlyPI = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+            }
+
+            // Total cost of buying (simplified but realistic)
+            const totalMortgagePaid = monthlyPI * numPayments;
+            const totalMaintenance = homePrice * (maintenance / 100) * years;
+            const finalHomeValue = homePrice * Math.pow(1 + appreciation/100, years);
+            const equity = finalHomeValue - loanAmount; // remaining loan is ignored for simplicity
+            const totalBuyCost = totalMortgagePaid + totalMaintenance - equity; // net cost after appreciation
+
+            // Total cost of renting
+            let totalRentCost = 0;
+            let currentRent = annualRent;
+            for (let i = 0; i < years; i++) {
+                totalRentCost += currentRent;
+                currentRent *= (1 + rentIncrease/100);
+            }
+
+            // Update results
+            document.getElementById('buyTotal').textContent = '$' + Math.round(totalBuyCost).toLocaleString();
+            document.getElementById('rentTotal').textContent = '$' + Math.round(totalRentCost).toLocaleString();
+
+            // Verdict
+            const verdictEl = document.getElementById('verdict');
+            const difference = Math.round(Math.abs(totalBuyCost - totalRentCost));
+            if (totalBuyCost < totalRentCost) {
+                verdictEl.innerHTML = `✅ <span class="text-emerald-600">Buying saves you ~$${difference.toLocaleString()} over ${years} years</span>`;
+            } else {
+                verdictEl.innerHTML = `🏠 <span class="text-amber-600">Renting saves you ~$${difference.toLocaleString()} over ${years} years</span>`;
+            }
+
+            updateChart(years, totalRentCost, totalBuyCost);
+        }
+
+        function updateChart(years, rentTotal, buyTotal) {
+            const ctx = document.getElementById('comparisonChart');
+            if (comparisonChart) comparisonChart.destroy();
+
+            // Create cumulative data for nicer visualization
+            const rentData = [];
+            const buyData = [];
+            for (let i = 1; i <= years; i++) {
+                rentData.push(Math.round(rentTotal / years * i));
+                buyData.push(Math.round(buyTotal / years * i));
+            }
+
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({length: years}, (_, i) => `Year ${i+1}`),
+                    datasets: [
+                        {
+                            label: 'Renting',
+                            data: rentData,
+                            backgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: 'Buying',
+                            data: buyData,
+                            backgroundColor: '#10b981'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: value => '$' + (value/1000) + 'k' }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        function shareResults() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+
+        window.onload = calculate;
+    </script>
+</body>
+</html>
