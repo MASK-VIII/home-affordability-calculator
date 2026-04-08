@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free 2026 Retirement Savings Calculator. See how much you'll have at retirement based on current savings, age, contributions, employer match, and returns. Includes projections, chart, and safe withdrawal estimates.">
+    <meta name="description" content="Free 2026 Retirement Savings Calculator. Project your nest egg at retirement, safe withdrawal rate, and monthly income based on age, savings, contributions, and employer match.">
     <title>Retirement Savings Calculator 2026 • How Much Will I Have?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -16,9 +16,17 @@
 </head>
 <body class="bg-gray-50 py-8">
     <div class="max-w-6xl mx-auto px-4">
+        <!-- All Tools Button -->
+        <div class="flex justify-end mb-6">
+            <a href="tools.html" 
+               class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300 transition">
+                ← Browse All Finance Tools
+            </a>
+        </div>
+
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-2">Retirement Savings Calculator</h1>
-            <p class="text-xl text-gray-600">2026 Edition • Project your nest egg and safe withdrawal amount</p>
+            <p class="text-xl text-gray-600">2026 Edition • Project your future nest egg and safe withdrawal</p>
         </div>
 
         <div class="grid lg:grid-cols-12 gap-8">
@@ -44,7 +52,7 @@
                         <input id="income" type="number" value="85000" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Employee Contribution (% of salary)</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Contribution (% of salary)</label>
                         <input id="contribPct" type="number" step="0.1" value="9.5" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
                     </div>
                 </div>
@@ -92,7 +100,7 @@
                     </div>
                 </div>
 
-                <canvas id="projectionChart" class="w-full h-64 mb-6"></canvas>
+                <canvas id="projectionChart" class="w-full h-64 mb-8"></canvas>
 
                 <div id="summary" class="text-sm space-y-2 mb-8"></div>
 
@@ -117,67 +125,45 @@
         <!-- Rich Content -->
         <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
             <h2 class="text-3xl font-bold mb-6">How Much Will You Have for Retirement in 2026?</h2>
-            <p class="text-lg leading-relaxed">This free calculator projects your retirement savings using compound growth. It factors in your current savings, age, contributions (employee + employer match), expected returns, and inflation. As of 2026, the average employee contributes about 9.5% of salary to their 401(k), with employers adding ~4.7% on average.</p>
+            <p class="text-lg leading-relaxed">This free calculator projects your retirement savings using compound growth. It includes your current savings, regular contributions (employee + employer match), expected returns, and inflation. As of 2026, the average employee contribution is ~9.5% with employers matching ~4.7%.</p>
 
-            <h3 class="font-semibold text-2xl mt-12 mb-4">Key Assumptions &amp; 2026 Context</h3>
-            <ul class="list-disc pl-6 space-y-2">
-                <li>Average total contribution rate (employee + match) is around 14%</li>
-                <li>Historical stock/bond portfolio returns average ~7% after inflation in many projections</li>
-                <li>Safe withdrawal rate is approximately 3.9% for a 30-year retirement (Morningstar 2026 guidance)</li>
-            </ul>
-
-            <h3 class="font-semibold text-2xl mt-12 mb-4">Practical Tips to Reach Your Goals</h3>
+            <h3 class="font-semibold text-2xl mt-12 mb-4">Practical Tips</h3>
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="bg-emerald-50 p-6 rounded-2xl">
-                    <h4 class="font-semibold mb-3 text-emerald-800">Increase Savings Faster</h4>
+                    <h4 class="font-semibold mb-3 text-emerald-800">Boost Your Savings</h4>
                     <ul class="list-disc pl-5 space-y-1 text-sm">
-                        <li>Maximize employer match — it's free money</li>
-                        <li>Increase contributions by 1% each year</li>
-                        <li>Consider catch-up contributions if age 50+</li>
-                        <li>Automate increases with every raise</li>
+                        <li>Maximize your employer match — it's free money</li>
+                        <li>Increase contributions by 1% every year</li>
+                        <li>Automate increases with raises</li>
                     </ul>
                 </div>
                 <div class="bg-amber-50 p-6 rounded-2xl">
-                    <h4 class="font-semibold mb-3 text-amber-800">Protect Your Nest Egg</h4>
+                    <h4 class="font-semibold mb-3 text-amber-800">Protect Your Future</h4>
                     <ul class="list-disc pl-5 space-y-1 text-sm">
-                        <li>Diversify investments and rebalance regularly</li>
-                        <li>Keep fees low (target under 0.5%)</li>
-                        <li>Plan for healthcare and long-term care costs</li>
-                        <li>Factor in Social Security and pensions</li>
+                        <li>Keep investment fees low</li>
+                        <li>Rebalance your portfolio regularly</li>
+                        <li>Plan for healthcare costs in retirement</li>
                     </ul>
                 </div>
             </div>
 
             <h3 class="font-semibold text-2xl mt-12 mb-4">Frequently Asked Questions</h3>
-            
             <details class="mb-6 border-b pb-6">
                 <summary>How is the future value calculated?</summary>
-                <p class="mt-3 text-gray-600">Using the compound interest formula with annual contributions added each year. It accounts for your current savings growing plus new contributions growing over time.</p>
+                <p class="mt-3 text-gray-600">Using compound interest on your current savings plus annual contributions (including employer match) over the years until retirement.</p>
             </details>
-            
             <details class="mb-6 border-b pb-6">
                 <summary>What is the safe withdrawal rate?</summary>
-                <p class="mt-3 text-gray-600">The 3.9% rule (2026 Morningstar guidance) means you can withdraw about 3.9% of your portfolio in the first year of retirement, adjusted for inflation each year, with a high probability of the money lasting 30 years.</p>
+                <p class="mt-3 text-gray-600">We use 3.9% (2026 guidance) — you can withdraw this percentage of your portfolio in the first year of retirement, adjusted for inflation annually, with a high chance the money lasts 30+ years.</p>
             </details>
-            
-            <details class="mb-6 border-b pb-6">
-                <summary>Should I include employer match?</summary>
-                <p class="mt-3 text-gray-600">Yes — it's essentially free money. The average match in 2026 is around 4.7% of salary. Make sure you're contributing enough to get the full match.</p>
-            </details>
-            
-            <details class="mb-6 border-b pb-6">
-                <summary>Are these numbers guaranteed?</summary>
-                <p class="mt-3 text-gray-600">No. Returns, inflation, and contribution amounts can vary. This is an educational projection only. Past performance does not guarantee future results.</p>
-            </details>
-            
             <details class="mb-6">
-                <summary>How can I improve my retirement outlook?</summary>
-                <p class="mt-3 text-gray-600">Increase your contribution percentage, start earlier, reduce investment fees, or delay retirement by a few years. Even small consistent increases compound powerfully.</p>
+                <summary>Are the results guaranteed?</summary>
+                <p class="mt-3 text-gray-600">No. Market returns and inflation vary. This is an educational projection only. Consult a financial advisor for personalized planning.</p>
             </details>
 
             <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
-                <p><strong>Disclaimer:</strong> This calculator is for educational purposes only. It does not constitute financial advice. Actual results depend on market performance, contribution consistency, fees, taxes, and personal circumstances. Consult a qualified financial advisor or use this as a starting point only.</p>
-                <p class="mt-4">Last updated: April 2026 • Based on average contribution rates and conservative assumptions.</p>
+                <p><strong>Disclaimer:</strong> This tool is for educational purposes only. It does not constitute financial advice. Actual results depend on market performance, fees, taxes, and your personal situation.</p>
+                <p class="mt-4">Last updated: April 2026</p>
             </div>
         </div>
 
@@ -198,20 +184,9 @@
       "@type": "WebApplication",
       "name": "Retirement Savings Calculator 2026",
       "url": "https://home-affordability-calculator-lovat.vercel.app/retirement-calculator.html",
-      "description": "Free retirement calculator to project savings at retirement, safe withdrawal amounts, and monthly income. Uses current contribution rates and 2026 assumptions.",
+      "description": "Free retirement savings calculator for 2026 projections.",
       "applicationCategory": "FinanceApplication",
-      "applicationSubCategory": "Retirement Calculator",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "provider": {
-        "@type": "Organization",
-        "name": "Free Finance Tools",
-        "url": "https://home-affordability-calculator-lovat.vercel.app/"
-      }
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
 
@@ -235,8 +210,9 @@
             let returnRate = parseFloat(document.getElementById('returnRate').value) || 7;
             let inflation = parseFloat(document.getElementById('inflation').value) || 2.5;
 
-            const yearsToRetire = retireAge - currentAge;
-            const annualContrib = annualIncome * (contribPct + matchPct) / 100;
+            const yearsToRetire = Math.max(0, retireAge - currentAge);
+            const totalContribRate = (contribPct + matchPct) / 100;
+            const annualContrib = annualIncome * totalContribRate;
             const realReturn = (returnRate - inflation) / 100;
 
             // Future value calculation
@@ -245,27 +221,27 @@
                 futureValue += annualContrib * Math.pow(1 + realReturn, yearsToRetire - i);
             }
 
-            const safeWithdrawalRate = 0.039; // 3.9% 2026 guidance
+            const safeWithdrawalRate = 0.039;
             const annualSafeWithdrawal = futureValue * safeWithdrawalRate;
             const monthlyIncome = annualSafeWithdrawal / 12;
 
-            // Update DOM
+            // Update results
             document.getElementById('futureValue').textContent = '$' + Math.round(futureValue).toLocaleString();
             document.getElementById('safeWithdrawal').textContent = '$' + Math.round(annualSafeWithdrawal).toLocaleString();
             document.getElementById('monthlyIncome').textContent = '$' + Math.round(monthlyIncome).toLocaleString();
 
             const summaryHTML = `
-                <div class="flex justify-between"><span>Years until retirement</span><span>${yearsToRetire}</span></div>
+                <div class="flex justify-between"><span>Years to retirement</span><span>${yearsToRetire}</span></div>
                 <div class="flex justify-between"><span>Annual contribution (you + match)</span><span>$${Math.round(annualContrib).toLocaleString()}</span></div>
-                <div class="flex justify-between"><span>Assumed real return</span><span>${returnRate - inflation}%</span></div>
+                <div class="flex justify-between"><span>Real annual return</span><span>${(returnRate - inflation).toFixed(1)}%</span></div>
             `;
             document.getElementById('summary').innerHTML = summaryHTML;
 
-            // Chart - simple projection line (current to retirement)
-            updateChart(currentAge, retireAge, currentSavings, futureValue);
+            // Line projection chart only
+            updateProjectionChart(currentAge, retireAge, currentSavings, futureValue);
         }
 
-        function updateChart(currentAge, retireAge, startValue, endValue) {
+        function updateProjectionChart(currentAge, retireAge, startValue, endValue) {
             const ctx = document.getElementById('projectionChart');
             if (projectionChart) projectionChart.destroy();
             projectionChart = new Chart(ctx, {
@@ -284,8 +260,10 @@
                 options: {
                     responsive: true,
                     plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, ticks: { callback: value => '$' + (value/1000) + 'k' } }
+                    scales: { 
+                        y: { 
+                            ticks: { callback: v => '$' + (v/1000) + 'k' } 
+                        } 
                     }
                 }
             });
@@ -293,7 +271,7 @@
 
         function shareResults() {
             navigator.clipboard.writeText(window.location.href);
-            alert("Link copied! Share this page with your current inputs.");
+            alert("Link copied to clipboard!");
         }
 
         window.onload = calculate;
