@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-adsense-account" content="ca-pub-9441546353491981">
-    <meta name="google-site-verification" content="ZHD0hO1vYivKAnDGK7qymwUQEC7CpsUO4a76JiIiaMg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free 2026 Home Affordability Calculator. Estimate how much house you can afford with current mortgage rates (~6.4%), income, debts, down payment, PMI, taxes, insurance & HOA. Includes charts, tips, and realistic scenarios.">
+    <meta name="description" content="Free 2026 Home Affordability Calculator. Estimate how much house you can afford with current mortgage rates (~6.4%), income, debts, down payment, PMI, taxes, insurance & HOA. Includes interactive chart, tips, and the 28/36 rule explained.">
     <title>Home Affordability Calculator 2026 • How Much House Can I Afford?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -20,7 +18,7 @@
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-2">Home Affordability Calculator</h1>
-            <p class="text-xl text-gray-600">April 2026 • Realistic estimates with current rates (~6.4% 30-yr fixed)</p>
+            <p class="text-xl text-gray-600">April 2026 • Realistic estimates with current 30-year rates (~6.4%)</p>
         </div>
 
         <div class="grid lg:grid-cols-12 gap-8">
@@ -54,9 +52,10 @@
                     </div>
                 </div>
 
-                <!-- Advanced Toggle -->
+                <!-- Advanced Options -->
                 <div class="mt-8">
-                    <button onclick="toggleAdvanced()" id="advancedBtn" class="text-blue-600 hover:text-blue-700 flex items-center gap-2">
+                    <button onclick="toggleAdvanced()" id="advancedBtn" 
+                            class="text-blue-600 hover:text-blue-700 flex items-center gap-2 font-medium">
                         ▼ Show Advanced Options
                     </button>
                     <div id="advancedSection" class="hidden space-y-6 mt-4">
@@ -72,7 +71,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Monthly HOA / Condo Fees ($)</label>
                             <input id="hoa" type="number" value="0" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
                         </div>
-                        <div class="text-xs text-gray-500">PMI is automatically added if down payment &lt; 20% of home price.</div>
+                        <div class="text-xs text-gray-500">PMI is automatically calculated if down payment is less than 20%.</div>
                     </div>
                 </div>
             </div>
@@ -102,66 +101,62 @@
                 <div id="breakdown" class="space-y-3 text-sm mb-8"></div>
 
                 <div class="flex gap-3">
-                    <button onclick="shareResults()" class="flex-1 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700">Share Results</button>
-                    <button onclick="window.print()" class="flex-1 border border-gray-300 py-3 rounded-2xl font-medium hover:bg-gray-50">Print / Save as PDF</button>
+                    <button onclick="shareResults()" 
+                            class="flex-1 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition">
+                        Share Results
+                    </button>
+                    <button onclick="window.print()" 
+                            class="flex-1 border border-gray-300 py-3 rounded-2xl font-medium hover:bg-gray-50 transition">
+                        Print / Save as PDF
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Ad placeholder -->
+        <!-- AdSense placeholder -->
         <div class="my-12 p-6 bg-white rounded-3xl shadow-sm text-center border border-dashed border-gray-300">
-            <p class="text-xs text-gray-400">Advertisement Space — Add your AdSense code here after approval</p>
+            <p class="text-xs text-gray-400">Advertisement Space — Add AdSense code here after approval</p>
         </div>
 
-        <!-- Rich Content Section -->
-                <!-- Rich Content Section - Expanded for SEO & Value -->
+        <!-- Expanded Rich Content -->
         <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
             <h2 class="text-3xl font-bold mb-6">How Much House Can You Afford in 2026?</h2>
-            <p class="text-lg leading-relaxed">This free calculator helps you estimate a realistic home price using the widely recommended <strong>28/36 rule</strong>, current mortgage rates, and typical homeownership costs. As of April 2026, average 30-year fixed mortgage rates are hovering around 6.3%–6.5%, depending on your credit, lender, and location. All calculations run entirely in your browser — no data is collected or stored.</p>
+            <p class="text-lg leading-relaxed">This free calculator helps you estimate a realistic home price using the widely recommended <strong>28/36 rule</strong>, current mortgage rates, and typical homeownership costs. As of April 2026, average 30-year fixed mortgage rates are hovering around 6.3%–6.5%. All calculations run entirely in your browser — no data is collected or stored.</p>
 
             <h3 class="font-semibold text-2xl mt-12 mb-4">Understanding the 28/36 Rule</h3>
-            <p>The 28/36 rule is a conservative guideline used by lenders and financial experts to assess affordability:</p>
+            <p>The 28/36 rule is a conservative guideline used by lenders:</p>
             <ul class="list-disc pl-6 space-y-2">
-                <li><strong>Front-end ratio (28%)</strong>: Your total housing costs (principal & interest + property taxes + insurance + HOA/PMI) should ideally stay under 28% of your gross monthly income.</li>
-                <li><strong>Back-end ratio (36%)</strong>: Your total monthly debt payments (housing + car loans, student loans, credit cards, etc.) should not exceed 36% of gross monthly income.</li>
+                <li><strong>Front-end ratio (28%)</strong>: Housing costs should stay under 28% of gross monthly income.</li>
+                <li><strong>Back-end ratio (36%)</strong>: Total debt payments should not exceed 36% of gross monthly income.</li>
             </ul>
-            <p class="mt-4">Many lenders allow higher debt-to-income (DTI) ratios up to 43% or more for qualified borrowers, but staying closer to 28/36 reduces financial stress and improves your chances of approval with better rates. This calculator defaults to the conservative side for realistic planning.</p>
+            <p class="mt-4">Many lenders allow higher DTIs, but staying closer to 28/36 reduces stress and improves approval odds.</p>
 
             <h3 class="font-semibold text-2xl mt-12 mb-4">What Affects Your Affordability in 2026?</h3>
             <ul class="list-disc pl-6 space-y-2">
-                <li><strong>Income & Existing Debt</strong>: Higher income and lower monthly debts directly increase what you can afford.</li>
-                <li><strong>Down Payment</strong>: 20% or more avoids private mortgage insurance (PMI), which can add $50–$200+ monthly.</li>
-                <li><strong>Interest Rates</strong>: At current levels (~6.4% average for 30-year fixed), even a 0.5% difference can change your monthly payment by hundreds of dollars over the loan term.</li>
-                <li><strong>Local Costs</strong>: Property taxes average around 0.99%–1.1% nationally but vary widely by state (highest in Illinois, New Jersey; lowest in Hawaii, Alabama). Homeowners insurance averages $2,000–$2,500+ per year depending on coverage and location.</li>
-                <li><strong>Credit & Loan Type</strong>: Excellent credit unlocks lower rates; programs like FHA or VA can help with smaller down payments.</li>
+                <li>Income and existing monthly debts</li>
+                <li>Down payment size (20%+ avoids PMI)</li>
+                <li>Current interest rates (~6.4% average)</li>
+                <li>Local property taxes, insurance, and HOA fees</li>
+                <li>Credit score and loan type</li>
             </ul>
 
-            <h3 class="font-semibold text-2xl mt-12 mb-4">Affordability Scenarios</h3>
-            <p>Think beyond the maximum number the calculator shows:</p>
-            <ul class="list-disc pl-6 space-y-2">
-                <li><strong>Conservative/Comfortable</strong>: Sticks close to 28/36 — leaves room for savings, emergencies, and lifestyle.</li>
-                <li><strong>Aggressive</strong>: Uses higher DTI — possible with strong credit and low other debts, but increases risk of being "house poor."</li>
-                <li><strong>Long-term View</strong>: Factor in future costs like maintenance (1–2% of home value annually), utilities, and potential rate changes if you refinance.</li>
-            </ul>
-
-            <h3 class="font-semibold text-2xl mt-12 mb-4">Practical Tips to Increase What You Can Afford (or Save More)</h3>
-            <div class="grid md:grid-cols-2 gap-6 mt-6">
+            <h3 class="font-semibold text-2xl mt-12 mb-4">Practical Tips</h3>
+            <div class="grid md:grid-cols-2 gap-6">
                 <div class="bg-emerald-50 p-6 rounded-2xl">
-                    <h4 class="font-semibold mb-3 text-emerald-800">Boost Buying Power Quickly</h4>
+                    <h4 class="font-semibold mb-3 text-emerald-800">Increase Buying Power</h4>
                     <ul class="list-disc pl-5 space-y-1 text-sm">
-                        <li>Pay down high-interest debt to lower your DTI ratio</li>
-                        <li>Save aggressively for a larger down payment (20%+ avoids PMI)</li>
-                        <li>Improve your credit score — even 20–30 points can lower your rate</li>
-                        <li>Shop at least 3–5 lenders; rates can vary by 0.25–0.5%+</li>
+                        <li>Pay down debt to lower DTI</li>
+                        <li>Save for a larger down payment</li>
+                        <li>Improve credit score</li>
+                        <li>Shop multiple lenders</li>
                     </ul>
                 </div>
                 <div class="bg-amber-50 p-6 rounded-2xl">
-                    <h4 class="font-semibold mb-3 text-amber-800">Protect Your Finances Long-Term</h4>
+                    <h4 class="font-semibold mb-3 text-amber-800">Stay Conservative</h4>
                     <ul class="list-disc pl-5 space-y-1 text-sm">
-                        <li>Budget for total cost of ownership, not just the mortgage payment</li>
-                        <li>Build an emergency fund covering 3–6 months of expenses before buying</li>
-                        <li>Consider 15-year vs 30-year loans (lower total interest but higher monthly payments)</li>
-                        <li>Look into first-time buyer programs, down payment assistance, or FHA/VA loans if eligible</li>
+                        <li>Budget for maintenance and utilities</li>
+                        <li>Build an emergency fund first</li>
+                        <li>Consider total long-term cost</li>
                     </ul>
                 </div>
             </div>
@@ -169,72 +164,90 @@
             <h3 class="font-semibold text-2xl mt-12 mb-4">Frequently Asked Questions</h3>
             
             <details class="mb-6 border-b pb-6">
-                <summary>What is included in the "Total Monthly Housing Cost"?</summary>
-                <p class="mt-3 text-gray-600">It estimates principal & interest + property taxes (using your entered rate, ~1.0% national average) + homeowners insurance (~$200/month base) + HOA fees + PMI (if down payment &lt;20%). This gives a more realistic "all-in" payment than principal & interest alone.</p>
+                <summary>What is included in the Total Monthly Housing Cost?</summary>
+                <p class="mt-3 text-gray-600">Principal & interest + property taxes + homeowners insurance + HOA fees + PMI (if applicable). This gives a realistic all-in payment.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>Are the results guaranteed or exact for loan approval?</summary>
-                <p class="mt-3 text-gray-600">No — these are educational estimates only. Actual qualification depends on your full credit profile, employment history, assets, debt-to-income ratio, lender guidelines, and local market conditions. Always get pre-approved by a licensed mortgage lender.</p>
+                <summary>Are these results guaranteed for loan approval?</summary>
+                <p class="mt-3 text-gray-600">No. These are educational estimates only. Actual approval depends on your full credit profile, employment, assets, and lender guidelines. Get pre-approved by a licensed lender.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>How do current 2026 mortgage rates affect affordability?</summary>
-                <p class="mt-3 text-gray-600">Rates around 6.3%–6.5% for 30-year fixed (as of April 2026) mean higher payments than the low-rate years of the past. A lower rate through strong credit or lender shopping can significantly increase the home price you can afford and reduce long-term interest costs.</p>
+                <summary>How do 2026 mortgage rates affect affordability?</summary>
+                <p class="mt-3 text-gray-600">Rates around 6.3%–6.5% mean higher payments than past low-rate years. Shopping for the best rate can significantly increase what you can afford.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>When is PMI required and how much does it add?</summary>
-                <p class="mt-3 text-gray-600">Private Mortgage Insurance is usually required when your down payment is less than 20% of the home price. It protects the lender and typically adds $50–$200+ to your monthly payment until you reach 20% equity.</p>
+                <summary>When is PMI required?</summary>
+                <p class="mt-3 text-gray-600">PMI is usually required if your down payment is less than 20%. It typically adds $50–$200+ to your monthly payment.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>Should I choose a 15-year or 30-year loan term?</summary>
-                <p class="mt-3 text-gray-600">A 30-year term has lower monthly payments but costs much more in total interest over time. A 15-year loan builds equity faster and saves tens of thousands in interest, but requires higher monthly payments. Choose based on your cash flow and long-term goals.</p>
+                <summary>Should I choose 15-year or 30-year term?</summary>
+                <p class="mt-3 text-gray-600">30-year has lower monthly payments but higher total interest. 15-year builds equity faster but requires higher payments.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>Why do property taxes and insurance vary so much?</summary>
-                <p class="mt-3 text-gray-600">Property taxes average ~0.99%–1.1% nationally but can exceed 2% in high-tax states like Illinois or New Jersey. Homeowners insurance averages $2,000–$2,600+ per year and is higher in areas prone to hurricanes, wildfires, or flooding. Always check local rates for accurate planning.</p>
+                <summary>Why do taxes and insurance vary?</summary>
+                <p class="mt-3 text-gray-600">Property taxes average ~1.0% nationally but vary by state. Insurance costs depend on location, home value, and coverage.</p>
             </details>
             
             <details class="mb-6 border-b pb-6">
-                <summary>How can I improve my results in this calculator?</summary>
-                <p class="mt-3 text-gray-600">Increase your down payment percentage, reduce listed monthly debts, or enter a lower interest rate (if you qualify). Using the advanced options for accurate local tax/insurance/HOA values also gives a more precise picture.</p>
+                <summary>How can I get better results?</summary>
+                <p class="mt-3 text-gray-600">Increase down payment, reduce debts, or use accurate local tax/insurance values in advanced options.</p>
             </details>
             
             <details class="mb-6">
-                <summary>Is this calculator suitable for first-time buyers or specific loan types?</summary>
-                <p class="mt-3 text-gray-600">Yes — it's a great starting point for anyone, including first-time buyers. It works for conventional, FHA, or VA loans as a general estimate, though FHA/VA have their own rules and may allow lower down payments. Consult a lender for program-specific details.</p>
+                <summary>Is this suitable for first-time buyers?</summary>
+                <p class="mt-3 text-gray-600">Yes. It works as a general estimate for conventional, FHA, or VA loans. Consult a lender for program-specific rules.</p>
             </details>
 
             <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
-                <p><strong>Important Disclaimer:</strong> This tool is for educational and illustrative purposes only. It does not constitute financial, mortgage, or real estate advice. Results are estimates and may differ significantly from actual lender offers. Mortgage rates, taxes, and insurance costs change frequently — always verify current data with professionals. We do not collect or store any personal information.</p>
-                <p class="mt-4">Last updated: April 2026 • National averages used where specific inputs are not provided. Rates based on recent market data (~6.3%–6.5% for 30-year fixed).</p>
-            </div>
-        </div>
-
-            <h3 class="font-semibold text-2xl mt-12 mb-4">Frequently Asked Questions</h3>
-            <!-- Multiple detailed FAQs here — same as previous enhanced version plus new ones on PMI, advanced options, etc. -->
-            <details class="mb-6 border-b pb-6">
-                <summary>When is PMI required?</summary>
-                <p class="mt-3 text-gray-600">Private Mortgage Insurance is typically required when your down payment is less than 20% of the home price. It protects the lender and usually adds $50–$200+ to your monthly payment.</p>
-            </details>
-            <!-- Add 4–5 more detailed FAQs as in previous version -->
-
-            <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
-                <p><strong>Disclaimer:</strong> This is an educational tool only. Results are estimates and not a loan pre-approval or financial advice. Actual amounts depend on your credit, lender guidelines, location, and market conditions. Consult a licensed mortgage professional. Rates change frequently — verify current offers.</p>
-                <p class="mt-4">Last updated: April 2026 • National averages used for taxes and insurance.</p>
+                <p><strong>Disclaimer:</strong> This is an educational tool only. Results are estimates and not financial advice or loan pre-approval. Consult a qualified mortgage professional. Rates and costs change frequently.</p>
+                <p class="mt-4">Last updated: April 2026 • National averages used where specific data not provided.</p>
             </div>
         </div>
 
         <footer class="mt-16 text-center text-sm text-gray-500 flex flex-wrap justify-center gap-x-6">
             <a href="about.html" class="hover:text-gray-700">About</a> |
-            <a href="privacy.html" class="hover:text-gray-700">Privacy</a> |
+            <a href="privacy.html" class="hover:text-gray-700">Privacy Policy</a> |
             <a href="disclaimer.html" class="hover:text-gray-700">Disclaimer</a>
-            <span>Free tool • No sign-up • All calculations in your browser</span>
+            <span>Free tool • No sign-up • Calculations run in your browser</span>
         </footer>
     </div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Home Affordability Calculator 2026",
+      "url": "https://home-affordability-calculator-lovat.vercel.app/",
+      "description": "Free online home affordability and mortgage calculator for 2026. Estimate how much house you can afford based on income, debts, down payment, current mortgage rates, taxes, insurance, HOA, and PMI.",
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Mortgage Calculator",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "Free Finance Tools",
+        "url": "https://home-affordability-calculator-lovat.vercel.app/"
+      },
+      "featureList": [
+        "Real-time affordability calculation",
+        "Monthly payment breakdown with taxes, insurance, HOA, and PMI",
+        "Interactive pie chart",
+        "Advanced options for local rates",
+        "Shareable and printable results",
+        "Educational content on 28/36 rule and 2026 rates"
+      ]
+    }
+    </script>
 
     <script>
         let paymentChart;
@@ -269,37 +282,29 @@
                 loanAmount = monthlyHousing * (1 - Math.pow(1 + monthlyRate, -numPayments)) / monthlyRate;
             }
 
-            // Iterate to find consistent max home price (accounting for PMI and down payment)
             let maxHomePrice = loanAmount + downPaymentAmt;
             let pmi = 0;
             if (downPaymentAmt / maxHomePrice < 0.20) {
-                pmi = maxHomePrice * 0.005 / 12; // rough 0.5% annual PMI
-            }
-            // Simple adjustment loop for consistency
-            for (let i = 0; i < 5; i++) {
-                maxHomePrice = (loanAmount + downPaymentAmt);
-                if (downPaymentAmt / maxHomePrice < 0.20) pmi = maxHomePrice * 0.005 / 12;
-                else pmi = 0;
+                pmi = maxHomePrice * 0.005 / 12; // rough PMI estimate
             }
 
             const estTaxes = maxHomePrice * (taxRate / 100) / 12;
-            const totalMonthly = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1) 
-                               + estTaxes + insurance + hoa + pmi;
+            const pi = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+            const totalMonthly = pi + estTaxes + insurance + hoa + pmi;
 
-            // Update DOM
+            // Update results
             document.getElementById('maxHome').textContent = '$' + Math.round(maxHomePrice).toLocaleString();
             document.getElementById('monthly').textContent = '$' + Math.round(totalMonthly).toLocaleString();
             document.getElementById('loanAmount').textContent = '$' + Math.round(loanAmount).toLocaleString();
 
             // Breakdown
-            const pi = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
             const breakdownHTML = `
-                <div class="flex justify-between"><span>Principal & Interest</span><span>$${Math.round(pi).toLocaleString()}</span></div>
-                <div class="flex justify-between"><span>Property Taxes</span><span>$${Math.round(estTaxes).toLocaleString()}</span></div>
-                <div class="flex justify-between"><span>Home Insurance</span><span>$${Math.round(insurance)}</span></div>
-                ${hoa > 0 ? `<div class="flex justify-between"><span>HOA Fees</span><span>$${Math.round(hoa)}</span></div>` : ''}
-                ${pmi > 0 ? `<div class="flex justify-between"><span>PMI</span><span>$${Math.round(pmi)}</span></div>` : ''}
-                <div class="flex justify-between font-medium border-t pt-2"><span>Total Monthly Cost</span><span>$${Math.round(totalMonthly).toLocaleString()}</span></div>
+                <div class="flex justify-between py-1"><span>Principal & Interest</span><span>$${Math.round(pi).toLocaleString()}</span></div>
+                <div class="flex justify-between py-1"><span>Property Taxes</span><span>$${Math.round(estTaxes).toLocaleString()}</span></div>
+                <div class="flex justify-between py-1"><span>Home Insurance</span><span>$${Math.round(insurance)}</span></div>
+                ${hoa > 0 ? `<div class="flex justify-between py-1"><span>HOA Fees</span><span>$${Math.round(hoa)}</span></div>` : ''}
+                ${pmi > 0 ? `<div class="flex justify-between py-1"><span>PMI</span><span>$${Math.round(pmi)}</span></div>` : ''}
+                <div class="flex justify-between py-2 border-t font-medium"><span>Total Monthly Housing Cost</span><span>$${Math.round(totalMonthly).toLocaleString()}</span></div>
             `;
             document.getElementById('breakdown').innerHTML = breakdownHTML;
 
@@ -313,68 +318,26 @@
             paymentChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Principal & Interest', 'Taxes', 'Insurance', 'HOA', 'PMI'],
+                    labels: ['Principal & Interest', 'Taxes', 'Insurance', 'HOA', 'PMI'].filter((_, i) => [pi, taxes, ins, hoa, pmi][i] > 0),
                     datasets: [{
                         data: [pi, taxes, ins, hoa, pmi].filter(v => v > 0),
                         backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444']
                     }]
                 },
-                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' } }
+                }
             });
         }
 
         function shareResults() {
-            const url = new URL(window.location);
-            // Basic param sharing (you can expand this)
-            alert("Link copied! (In a full version this would update URL params for sharing.) Share this page directly for now.");
             navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard! Share this page to let others see your results.");
         }
 
-        // Initial calc
-        window.onload = () => {
-            calculate();
-        };
+        // Initial calculation
+        window.onload = calculate;
     </script>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Home Affordability Calculator 2026",
-  "url": "https://home-affordability-calculator-lovat.vercel.app/",
-  "description": "Free online home affordability and mortgage calculator for 2026. Estimate how much house you can afford based on income, debts, down payment, current mortgage rates (~6.4%), taxes, insurance, HOA, and PMI. Includes payment breakdown, pie chart, and expert tips using the 28/36 rule.",
-  "applicationCategory": "FinanceApplication",
-  "applicationSubCategory": "Mortgage Calculator",
-  "operatingSystem": "Any",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "provider": {
-    "@type": "Organization",
-    "name": "Free Finance Tools",
-    "url": "https://home-affordability-calculator-lovat.vercel.app/"
-  },
-  "featureList": [
-    "Real-time mortgage affordability calculation",
-    "Monthly payment breakdown with taxes, insurance, HOA, and PMI",
-    "Interactive pie chart for cost visualization",
-    "Advanced options for local tax/insurance rates",
-    "Shareable and printable results",
-    "Educational content on 28/36 rule and 2026 mortgage rates"
-  ],
-  "screenshot": "https://home-affordability-calculator-lovat.vercel.app/screenshot.png", 
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "125"
-  },
-  "about": {
-    "@type": "Thing",
-    "name": "Home Affordability",
-    "description": "Calculating realistic home purchase amounts using standard lending guidelines and current market rates."
-  }
-}
-</script>
 </body>
 </html>
