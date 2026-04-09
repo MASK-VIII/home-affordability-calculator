@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free 2026 Compound Interest Calculator. See how your money can grow with regular contributions, different rates, and time horizons. Perfect for retirement and investment planning.">
+    <title>Compound Interest Calculator 2026 • Watch Your Money Grow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+        details { cursor: pointer; }
+        summary { font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- All Tools Button -->
+        <div class="flex justify-end mb-6">
+            <a href="tools.html" 
+               class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300 transition">
+                ← Browse All Finance Tools
+            </a>
+        </div>
+
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Compound Interest Calculator</h1>
+            <p class="text-xl text-gray-600">2026 Edition • See how your investments can grow over time</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+            <!-- Inputs -->
+            <div class="lg:col-span-5 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Investment Details</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Initial Investment ($)</label>
+                        <input id="initial" type="number" value="10000" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Contribution ($)</label>
+                        <input id="monthly" type="number" value="500" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Annual Interest Rate (%)</label>
+                        <input id="rate" type="number" step="0.1" value="7" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Time Period (Years)</label>
+                        <input id="years" type="number" value="30" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="mt-8">
+                    <button onclick="toggleAdvanced()" id="advancedBtn" 
+                            class="text-blue-600 hover:text-blue-700 flex items-center gap-2 font-medium">
+                        ▼ Show Advanced Options
+                    </button>
+                    <div id="advancedSection" class="hidden space-y-6 mt-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Compounding Frequency</label>
+                            <select id="frequency" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" onchange="calculate()">
+                                <option value="12" selected>Monthly</option>
+                                <option value="4">Quarterly</option>
+                                <option value="2">Semi-Annually</option>
+                                <option value="1">Annually</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Annual Inflation (%)</label>
+                            <input id="inflation" type="number" step="0.1" value="2.5" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="lg:col-span-7 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Your Investment Growth</h2>
+                
+                <div class="mb-8">
+                    <div id="finalValue" class="text-6xl font-bold text-emerald-600">$1,250,000</div>
+                    <p class="text-gray-500">Future Value After <span id="yearsDisplay">30</span> Years</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-50 p-5 rounded-2xl">
+                        <p class="text-xs uppercase tracking-widest text-gray-500">Total Contributions</p>
+                        <div id="totalContributed" class="text-3xl font-semibold">$190,000</div>
+                    </div>
+                    <div class="bg-emerald-50 p-5 rounded-2xl">
+                        <p class="text-xs uppercase tracking-widest text-emerald-700">Interest Earned</p>
+                        <div id="interestEarned" class="text-3xl font-semibold text-emerald-600">$1,060,000</div>
+                    </div>
+                </div>
+
+                <canvas id="growthChart" class="w-full h-80"></canvas>
+
+                <div class="flex gap-3 mt-8">
+                    <button onclick="shareResults()" class="flex-1 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition">
+                        Share Results
+                    </button>
+                    <button onclick="window.print()" class="flex-1 border border-gray-300 py-3 rounded-2xl font-medium hover:bg-gray-50 transition">
+                        Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense placeholder -->
+        <div class="my-12 p-6 bg-white rounded-3xl shadow-sm text-center border border-dashed border-gray-300">
+            <p class="text-xs text-gray-400">Advertisement Space — Add AdSense code here after approval</p>
+        </div>
+
+        <!-- Rich Content -->
+        <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
+            <h2 class="text-3xl font-bold mb-6">Compound Interest Calculator 2026</h2>
+            <p class="text-lg">The power of compound interest is one of the most important concepts in personal finance. This calculator shows how regular contributions and time can turn modest savings into significant wealth.</p>
+
+            <h3 class="font-semibold text-2xl mt-12 mb-4">Key Takeaways</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Starting early makes a massive difference due to compounding</li>
+                <li>Even small monthly contributions add up over decades</li>
+                <li>Higher rates and longer time horizons dramatically increase growth</li>
+            </ul>
+
+            <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
+                <p><strong>Disclaimer:</strong> This is an educational tool only. Past performance does not guarantee future results. Actual returns vary based on investments, fees, and market conditions. Consult a financial advisor for personalized advice.</p>
+                <p class="mt-4">Last updated: April 2026</p>
+            </div>
+        </div>
+
+        <footer class="mt-16 text-center text-sm text-gray-500 flex flex-wrap justify-center gap-x-6">
+            <a href="tools.html" class="hover:text-gray-700">All Finance Tools</a> |
+            <a href="index.html" class="hover:text-gray-700">Home Affordability</a> |
+            <a href="retirement-calculator.html" class="hover:text-gray-700">Retirement</a> |
+            <a href="rent-vs-buy.html" class="hover:text-gray-700">Rent vs Buy</a> |
+            <a href="debt-payoff-calculator.html" class="hover:text-gray-700">Debt Payoff</a> |
+            <a href="budget-planner.html" class="hover:text-gray-700">Budget Planner</a> |
+            <a href="about.html" class="hover:text-gray-700">About</a> |
+            <a href="privacy.html" class="hover:text-gray-700">Privacy</a> |
+            <a href="disclaimer.html" class="hover:text-gray-700">Disclaimer</a>
+        </footer>
+    </div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Compound Interest Calculator 2026",
+      "url": "https://home-affordability-calculator-lovat.vercel.app/compound-interest-calculator.html",
+      "description": "Free compound interest and investment growth calculator.",
+      "applicationCategory": "FinanceApplication",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <script>
+        let growthChart;
+
+        function toggleAdvanced() {
+            const section = document.getElementById('advancedSection');
+            const btn = document.getElementById('advancedBtn');
+            section.classList.toggle('hidden');
+            btn.textContent = section.classList.contains('hidden') ? '▼ Show Advanced Options' : '▲ Hide Advanced Options';
+        }
+
+        function calculate() {
+            const initial = parseFloat(document.getElementById('initial').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+            const rate = parseFloat(document.getElementById('rate').value) || 7;
+            const years = parseFloat(document.getElementById('years').value) || 30;
+            const frequency = parseFloat(document.getElementById('frequency').value) || 12;
+            const inflation = parseFloat(document.getElementById('inflation').value) || 2.5;
+
+            const annualRate = rate / 100;
+            const periods = years * frequency;
+            const periodRate = annualRate / frequency;
+
+            let futureValue = initial * Math.pow(1 + periodRate, periods);
+
+            // Add monthly contributions
+            const contribPerPeriod = monthly * (12 / frequency);
+            for (let i = 1; i <= periods; i++) {
+                futureValue += contribPerPeriod * Math.pow(1 + periodRate, periods - i);
+            }
+
+            const totalContributed = initial + (monthly * 12 * years);
+            const interestEarned = futureValue - totalContributed;
+
+            // Update UI
+            document.getElementById('finalValue').textContent = '$' + Math.round(futureValue).toLocaleString();
+            document.getElementById('yearsDisplay').textContent = years;
+            document.getElementById('totalContributed').textContent = '$' + Math.round(totalContributed).toLocaleString();
+            document.getElementById('interestEarned').textContent = '$' + Math.round(interestEarned).toLocaleString();
+
+            updateChart(years, initial, monthly, futureValue);
+        }
+
+        function updateChart(years, initial, monthly, finalValue) {
+            const ctx = document.getElementById('growthChart');
+            if (growthChart) growthChart.destroy();
+
+            // Simple growth curve
+            const labels = [];
+            const values = [];
+            for (let y = 0; y <= years; y += Math.max(1, Math.floor(years/10))) {
+                labels.push(y);
+                // Rough approximation for chart
+                const progress = y / years;
+                values.push(Math.round(initial + (finalValue - initial) * progress));
+            }
+
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Investment Value',
+                        data: values,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { ticks: { callback: v => '$' + (v/1000) + 'k' } }
+                    }
+                }
+            });
+        }
+
+        function shareResults() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+
+        window.onload = calculate;
+    </script>
+</body>
+</html>
