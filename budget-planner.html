@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free 2026 Monthly Budget Planner. Track income, expenses, and savings rate. See where your money goes with real-time totals and spending breakdown.">
-    <title>Monthly Budget Planner 2026 • Track Income & Expenses</title>
+    <meta name="description" content="Free 2026 Monthly Budget Planner. Track income, expenses, and savings rate. Save your budget in your browser and return anytime to edit.">
+    <title>Monthly Budget Planner 2026 • Track & Save Your Budget</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -25,7 +25,7 @@
 
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-2">Monthly Budget Planner</h1>
-            <p class="text-xl text-gray-600">2026 Edition • Simple & Effective Income vs Expenses Tracker</p>
+            <p class="text-xl text-gray-600">2026 Edition • Track Income, Expenses & Savings • Auto-saves in your browser</p>
         </div>
 
         <div class="grid lg:grid-cols-12 gap-8">
@@ -36,46 +36,57 @@
                 <div class="space-y-8">
                     <!-- Income -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Monthly Income Sources</label>
-                        <div class="space-y-4">
-                            <div class="flex gap-3">
-                                <input id="income1" type="text" value="Salary" placeholder="Source" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
-                                <input id="incomeAmt1" type="number" value="5500" placeholder="Amount" class="w-32 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
-                            </div>
-                            <div class="flex gap-3">
-                                <input id="income2" type="text" value="Side Income" placeholder="Source" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
-                                <input id="incomeAmt2" type="number" value="800" placeholder="Amount" class="w-32 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
-                            </div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Monthly Income</label>
+                        <div id="incomeList" class="space-y-4">
+                            <!-- Dynamic income rows added via JS -->
                         </div>
+                        <button onclick="addIncomeRow()" class="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">+ Add Income Source</button>
                     </div>
 
                     <!-- Expenses -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-3">Monthly Expenses</label>
                         <div id="expenseList" class="space-y-4">
-                            <!-- Dynamic expenses added via JS -->
+                            <!-- Dynamic expense rows -->
                         </div>
                         <button onclick="addExpenseRow()" class="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">+ Add Expense Category</button>
                     </div>
                 </div>
+
+                <div class="mt-8 flex gap-3">
+                    <button onclick="saveBudget()" class="flex-1 bg-emerald-600 text-white py-3 rounded-2xl font-medium hover:bg-emerald-700 transition">
+                        💾 Save Budget
+                    </button>
+                    <button onclick="clearAllData()" class="flex-1 border border-red-300 text-red-600 py-3 rounded-2xl font-medium hover:bg-red-50 transition">
+                        Clear All Data
+                    </button>
+                </div>
+
+                <div class="mt-4 flex gap-3 text-xs">
+                    <button onclick="exportBudget()" class="text-blue-600 hover:underline">Export as JSON</button>
+                    <label class="text-blue-600 hover:underline cursor-pointer">
+                        Import JSON <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBudget(event)">
+                    </label>
+                </div>
+                <div id="saveStatus" class="mt-3 text-sm text-emerald-600 text-center"></div>
             </div>
 
             <!-- Results -->
             <div class="lg:col-span-7 bg-white p-8 rounded-3xl shadow-sm">
-                <h2 class="text-2xl font-semibold mb-6">Your Budget Overview</h2>
+                <h2 class="text-2xl font-semibold mb-6">Budget Overview</h2>
                 
                 <div class="grid grid-cols-3 gap-6 mb-8">
                     <div class="bg-emerald-50 p-5 rounded-2xl text-center">
                         <p class="text-xs text-emerald-700">Total Income</p>
-                        <div id="totalIncome" class="text-3xl font-bold text-emerald-600">$6,300</div>
+                        <div id="totalIncome" class="text-3xl font-bold text-emerald-600">$0</div>
                     </div>
                     <div class="bg-rose-50 p-5 rounded-2xl text-center">
                         <p class="text-xs text-rose-700">Total Expenses</p>
-                        <div id="totalExpenses" class="text-3xl font-bold text-rose-600">$4,850</div>
+                        <div id="totalExpenses" class="text-3xl font-bold text-rose-600">$0</div>
                     </div>
                     <div class="bg-blue-50 p-5 rounded-2xl text-center">
                         <p class="text-xs text-blue-700">Monthly Savings</p>
-                        <div id="savings" class="text-3xl font-bold text-blue-600">$1,450</div>
+                        <div id="savings" class="text-3xl font-bold text-blue-600">$0</div>
                     </div>
                 </div>
 
@@ -101,18 +112,11 @@
 
         <!-- Rich Content -->
         <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
-            <h2 class="text-3xl font-bold mb-6">Simple Monthly Budget Planner 2026</h2>
-            <p class="text-lg">A practical budget tool to track your income, expenses, and savings rate. The 50/30/20 rule is a popular starting point (50% needs, 30% wants, 20% savings/debt), but adjust based on your goals.</p>
-
-            <h3 class="font-semibold text-2xl mt-12 mb-4">How to Use This Budget</h3>
-            <ul class="list-disc pl-6 space-y-2">
-                <li>Add your income sources and monthly expenses</li>
-                <li>Watch the real-time totals and savings rate update</li>
-                <li>Aim for at least 20% savings rate if possible</li>
-            </ul>
+            <h2 class="text-3xl font-bold mb-6">Monthly Budget Planner 2026</h2>
+            <p class="text-lg">Track your income, expenses, and savings rate. Your budget is automatically saved in your browser so you can return anytime to update it.</p>
 
             <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
-                <p><strong>Disclaimer:</strong> This is an educational budgeting tool only. It does not replace professional financial advice. Adjust categories to fit your personal situation.</p>
+                <p><strong>Note:</strong> Budget data is saved only in your browser. It will not sync across devices unless you use the Export/Import feature.</p>
                 <p class="mt-4">Last updated: April 2026</p>
             </div>
         </div>
@@ -123,6 +127,7 @@
             <a href="retirement-calculator.html" class="hover:text-gray-700">Retirement</a> |
             <a href="rent-vs-buy.html" class="hover:text-gray-700">Rent vs Buy</a> |
             <a href="debt-payoff-calculator.html" class="hover:text-gray-700">Debt Payoff</a> |
+            <a href="budget-planner.html" class="hover:text-gray-700">Budget Planner</a> |
             <a href="about.html" class="hover:text-gray-700">About</a> |
             <a href="privacy.html" class="hover:text-gray-700">Privacy</a> |
             <a href="disclaimer.html" class="hover:text-gray-700">Disclaimer</a>
@@ -136,7 +141,7 @@
       "@type": "WebApplication",
       "name": "Monthly Budget Planner 2026",
       "url": "https://home-affordability-calculator-lovat.vercel.app/budget-planner.html",
-      "description": "Free monthly budget planner to track income, expenses, and savings.",
+      "description": "Free monthly budget planner with save feature.",
       "applicationCategory": "FinanceApplication",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
@@ -145,49 +150,54 @@
     <script>
         let budgetChart;
 
-        function toggleAdvanced() {
-            // Not used in this tool but kept for consistency
+        // Add income row
+        function addIncomeRow() {
+            const list = document.getElementById('incomeList');
+            const row = document.createElement('div');
+            row.className = "flex gap-3";
+            row.innerHTML = `
+                <input type="text" value="Income Source" placeholder="Source" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
+                <input type="number" value="0" placeholder="Amount" class="w-40 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+            `;
+            list.appendChild(row);
         }
 
+        // Add expense row
         function addExpenseRow() {
             const list = document.getElementById('expenseList');
             const row = document.createElement('div');
             row.className = "flex gap-3";
             row.innerHTML = `
                 <input type="text" value="Expense" placeholder="Category" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
-                <input type="number" value="500" placeholder="Amount" class="w-32 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                <input type="number" value="0" placeholder="Amount" class="w-40 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
             `;
             list.appendChild(row);
         }
 
         function calculate() {
-            // Income
+            // Calculate income
             let totalIncome = 0;
-            const incomeAmts = document.querySelectorAll('input[id^="incomeAmt"]');
-            incomeAmts.forEach(input => {
+            document.querySelectorAll('#incomeList input[type="number"]').forEach(input => {
                 totalIncome += parseFloat(input.value) || 0;
             });
 
-            // Expenses
+            // Calculate expenses
             let totalExpenses = 0;
-            const expenseInputs = document.querySelectorAll('#expenseList input[type="number"]');
-            expenseInputs.forEach(input => {
+            document.querySelectorAll('#expenseList input[type="number"]').forEach(input => {
                 totalExpenses += parseFloat(input.value) || 0;
             });
 
             const savings = totalIncome - totalExpenses;
             const savingsRate = totalIncome > 0 ? Math.round((savings / totalIncome) * 100) : 0;
 
-            // Update DOM
+            // Update UI
             document.getElementById('totalIncome').textContent = '$' + totalIncome.toLocaleString();
             document.getElementById('totalExpenses').textContent = '$' + totalExpenses.toLocaleString();
             document.getElementById('savings').textContent = '$' + savings.toLocaleString();
-
-            document.getElementById('savingsRate').innerHTML = `
-                Savings Rate: <span class="font-bold ${savingsRate >= 20 ? 'text-emerald-600' : 'text-amber-600'}">${savingsRate}%</span>
-            `;
+            document.getElementById('savingsRate').innerHTML = `Savings Rate: <span class="font-bold ${savingsRate >= 20 ? 'text-emerald-600' : 'text-amber-600'}">${savingsRate}%</span>`;
 
             updateChart(totalIncome, totalExpenses, savings);
+            saveToLocalStorage();  // Auto-save
         }
 
         function updateChart(totalIncome, totalExpenses, savings) {
@@ -199,7 +209,7 @@
                 data: {
                     labels: ['Expenses', 'Savings'],
                     datasets: [{
-                        data: [totalExpenses, savings],
+                        data: [totalExpenses, savings > 0 ? savings : 0],
                         backgroundColor: ['#ef4444', '#10b981']
                     }]
                 },
@@ -210,14 +220,131 @@
             });
         }
 
+        // Save to localStorage
+        function saveToLocalStorage() {
+            const data = {
+                income: [],
+                expenses: []
+            };
+
+            // Save income rows
+            document.querySelectorAll('#incomeList > div').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                data.income.push({
+                    name: inputs[0].value,
+                    amount: parseFloat(inputs[1].value) || 0
+                });
+            });
+
+            // Save expense rows
+            document.querySelectorAll('#expenseList > div').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                data.expenses.push({
+                    name: inputs[0].value,
+                    amount: parseFloat(inputs[1].value) || 0
+                });
+            });
+
+            localStorage.setItem('budgetData', JSON.stringify(data));
+            showSaveStatus();
+        }
+
+        function showSaveStatus() {
+            const status = document.getElementById('saveStatus');
+            status.textContent = '✅ Budget auto-saved';
+            setTimeout(() => status.textContent = '', 2000);
+        }
+
+        // Load from localStorage
+        function loadBudget() {
+            const saved = localStorage.getItem('budgetData');
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+
+            // Clear existing rows
+            document.getElementById('incomeList').innerHTML = '';
+            document.getElementById('expenseList').innerHTML = '';
+
+            // Load income
+            data.income.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex gap-3";
+                row.innerHTML = `
+                    <input type="text" value="${item.name}" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
+                    <input type="number" value="${item.amount}" class="w-40 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                `;
+                document.getElementById('incomeList').appendChild(row);
+            });
+
+            // Load expenses
+            data.expenses.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex gap-3";
+                row.innerHTML = `
+                    <input type="text" value="${item.name}" class="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
+                    <input type="number" value="${item.amount}" class="w-40 px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                `;
+                document.getElementById('expenseList').appendChild(row);
+            });
+        }
+
+        function clearAllData() {
+            if (confirm("Clear all budget data? This cannot be undone.")) {
+                localStorage.removeItem('budgetData');
+                location.reload();
+            }
+        }
+
+        function exportBudget() {
+            const data = localStorage.getItem('budgetData');
+            if (!data) {
+                alert("No budget data to export.");
+                return;
+            }
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my-budget.json';
+            a.click();
+        }
+
+        function importBudget(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    localStorage.setItem('budgetData', e.target.result);
+                    loadBudget();
+                    calculate();
+                    alert("Budget imported successfully!");
+                } catch (err) {
+                    alert("Failed to import budget.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function saveBudget() {
+            saveToLocalStorage();
+            alert("Budget saved successfully!");
+        }
+
         function shareResults() {
             navigator.clipboard.writeText(window.location.href);
             alert("Link copied to clipboard!");
         }
 
-        // Initialize with one expense row
+        // Initialize
         window.onload = () => {
-            addExpenseRow();  // Add first expense row
+            // Add initial rows
+            addIncomeRow();
+            addExpenseRow();
+            addExpenseRow(); // Add a second expense row by default
+
+            loadBudget();    // Load saved data if exists
             calculate();
         };
     </script>
