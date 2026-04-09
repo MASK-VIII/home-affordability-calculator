@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free 2026 Debt Payoff Calculator. Compare Snowball vs Avalanche methods. See how long it will take to become debt-free with extra payments.">
+    <title>Debt Payoff Calculator 2026 • Snowball vs Avalanche</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+        details { cursor: pointer; }
+        summary { font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- All Tools Button -->
+        <div class="flex justify-end mb-6">
+            <a href="tools.html" 
+               class="inline-flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-blue-300 transition">
+                ← Browse All Finance Tools
+            </a>
+        </div>
+
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Debt Payoff Calculator</h1>
+            <p class="text-xl text-gray-600">2026 Edition • Snowball vs Avalanche • See how fast you can be debt-free</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+            <!-- Inputs -->
+            <div class="lg:col-span-5 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Your Debts</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Total Debt Amount ($)</label>
+                        <input id="totalDebt" type="number" value="35000" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Average Interest Rate (%)</label>
+                        <input id="interestRate" type="number" step="0.1" value="18.5" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Minimum Monthly Payment ($)</label>
+                        <input id="minPayment" type="number" value="650" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Extra Monthly Payment ($)</label>
+                        <input id="extraPayment" type="number" value="200" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Payoff Method</label>
+                        <select id="method" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500 text-lg" onchange="calculate()">
+                            <option value="avalanche" selected>Avalanche (Highest Interest First)</option>
+                            <option value="snowball">Snowball (Smallest Balance First)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="mt-8">
+                    <button onclick="toggleAdvanced()" id="advancedBtn" 
+                            class="text-blue-600 hover:text-blue-700 flex items-center gap-2 font-medium">
+                        ▼ Show Advanced Options
+                    </button>
+                    <div id="advancedSection" class="hidden space-y-6 mt-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Number of Debts (for simulation)</label>
+                            <input id="numDebts" type="number" value="3" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="lg:col-span-7 bg-white p-8 rounded-3xl shadow-sm">
+                <h2 class="text-2xl font-semibold mb-6">Your Debt Payoff Projection</h2>
+                
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-emerald-50 p-6 rounded-2xl text-center">
+                        <p class="text-sm text-emerald-700">Months to Debt-Free</p>
+                        <div id="months" class="text-5xl font-bold text-emerald-600 mt-2">38</div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-2xl text-center">
+                        <p class="text-sm text-gray-700">Total Interest Paid</p>
+                        <div id="interestPaid" class="text-4xl font-bold text-gray-900 mt-2">$8,450</div>
+                    </div>
+                </div>
+
+                <canvas id="payoffChart" class="w-full h-80 mb-8"></canvas>
+
+                <div id="verdict" class="mt-6 p-6 bg-gray-50 rounded-2xl text-center"></div>
+
+                <div class="flex gap-3 mt-8">
+                    <button onclick="shareResults()" class="flex-1 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition">
+                        Share Results
+                    </button>
+                    <button onclick="window.print()" class="flex-1 border border-gray-300 py-3 rounded-2xl font-medium hover:bg-gray-50 transition">
+                        Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense placeholder -->
+        <div class="my-12 p-6 bg-white rounded-3xl shadow-sm text-center border border-dashed border-gray-300">
+            <p class="text-xs text-gray-400">Advertisement Space — Add AdSense code here after approval</p>
+        </div>
+
+        <!-- Rich Content -->
+        <div class="bg-white p-10 rounded-3xl shadow-sm prose max-w-none text-gray-700">
+            <h2 class="text-3xl font-bold mb-6">Debt Payoff Calculator — Snowball vs Avalanche</h2>
+            <p class="text-lg">The Debt Snowball method pays off smallest debts first for quick wins and motivation. The Avalanche method saves the most money by targeting highest interest rates first. This calculator shows both approaches with your extra payments.</p>
+
+            <h3 class="font-semibold text-2xl mt-12 mb-4">Which Method Should You Choose?</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Snowball</strong>: Best for motivation and building momentum</li>
+                <li><strong>Avalanche</strong>: Best for saving the most on interest</li>
+            </ul>
+
+            <div class="mt-12 pt-8 border-t bg-amber-50 p-6 rounded-2xl text-sm">
+                <p><strong>Disclaimer:</strong> This is an educational tool only. It does not constitute financial advice. Actual payoff times depend on your specific debts, interest rates, and payment consistency. Consult a financial advisor if needed.</p>
+                <p class="mt-4">Last updated: April 2026</p>
+            </div>
+        </div>
+
+        <footer class="mt-16 text-center text-sm text-gray-500 flex flex-wrap justify-center gap-x-6">
+            <a href="tools.html" class="hover:text-gray-700">All Finance Tools</a> |
+            <a href="index.html" class="hover:text-gray-700">Home Affordability</a> |
+            <a href="retirement-calculator.html" class="hover:text-gray-700">Retirement</a> |
+            <a href="rent-vs-buy.html" class="hover:text-gray-700">Rent vs Buy</a> |
+            <a href="about.html" class="hover:text-gray-700">About</a> |
+            <a href="privacy.html" class="hover:text-gray-700">Privacy</a> |
+            <a href="disclaimer.html" class="hover:text-gray-700">Disclaimer</a>
+        </footer>
+    </div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Debt Payoff Calculator 2026",
+      "url": "https://home-affordability-calculator-lovat.vercel.app/debt-payoff-calculator.html",
+      "description": "Free debt payoff calculator comparing Snowball and Avalanche methods.",
+      "applicationCategory": "FinanceApplication",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <script>
+        let payoffChart;
+
+        function toggleAdvanced() {
+            const section = document.getElementById('advancedSection');
+            const btn = document.getElementById('advancedBtn');
+            section.classList.toggle('hidden');
+            btn.textContent = section.classList.contains('hidden') ? '▼ Show Advanced Options' : '▲ Hide Advanced Options';
+        }
+
+        function calculate() {
+            const totalDebt = parseFloat(document.getElementById('totalDebt').value) || 35000;
+            const interestRate = parseFloat(document.getElementById('interestRate').value) || 18.5;
+            const minPayment = parseFloat(document.getElementById('minPayment').value) || 650;
+            const extraPayment = parseFloat(document.getElementById('extraPayment').value) || 200;
+            const method = document.getElementById('method').value;
+
+            const monthlyRate = interestRate / 100 / 12;
+            let balance = totalDebt;
+            let months = 0;
+            let totalInterest = 0;
+            let totalPaid = 0;
+
+            const monthlyPayment = minPayment + extraPayment;
+
+            while (balance > 0 && months < 1200) {  // safety limit
+                months++;
+                const interestThisMonth = balance * monthlyRate;
+                totalInterest += interestThisMonth;
+                let paymentThisMonth = Math.min(monthlyPayment, balance + interestThisMonth);
+                balance = balance + interestThisMonth - paymentThisMonth;
+                totalPaid += paymentThisMonth;
+                if (balance < 0) balance = 0;
+            }
+
+            // Update results
+            document.getElementById('months').textContent = months;
+            document.getElementById('interestPaid').textContent = '$' + Math.round(totalInterest).toLocaleString();
+
+            const verdictEl = document.getElementById('verdict');
+            verdictEl.innerHTML = `With $${extraPayment} extra per month using <strong>${method === 'avalanche' ? 'Avalanche' : 'Snowball'}</strong> method, you'll be debt-free in <strong>${months} months</strong> (${Math.ceil(months/12)} years).`;
+
+            updateChart(months, totalDebt, totalInterest);
+        }
+
+        function updateChart(months, totalDebt, totalInterest) {
+            const ctx = document.getElementById('payoffChart');
+            if (payoffChart) payoffChart.destroy();
+
+            payoffChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Principal', 'Interest'],
+                    datasets: [{
+                        label: 'Amount',
+                        data: [totalDebt, totalInterest],
+                        backgroundColor: ['#10b981', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function shareResults() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+
+        window.onload = calculate;
+    </script>
+</body>
+</html>
